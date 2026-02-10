@@ -208,6 +208,7 @@ async def send_contact_keyboard_weekend(callback: CallbackQuery, _, dialog_manag
     )
     tg_id = dialog_manager.event.from_user.id
     app_script: AppScriptClient = dialog_manager.middleware_data['app_script']
+    dialog_manager.dialog_data['when_connect'] = 'Связаться на выходных'
     await app_script.send(payload={"tg-id": tg_id, "На выходных": "Да"})
     # отправляем отдельным сообщением, т.к. aiogram-dialog работает с inline-клавиатурами
     msg = await callback.message.answer("Отправьте номер кнопкой", reply_markup=kb)
@@ -221,6 +222,7 @@ async def send_contact_keyboard_end_month(callback: CallbackQuery, _, dialog_man
         one_time_keyboard=True,
     )
     app_script: AppScriptClient = dialog_manager.middleware_data['app_script']
+    dialog_manager.dialog_data['when_connect'] = 'Связаться в конце месяца'
     tg_id = dialog_manager.event.from_user.id
     await app_script.send(payload={"tg-id": tg_id, "В конце месяца": "Да"})
     # отправляем отдельным сообщением, т.к. aiogram-dialog работает с inline-клавиатурами
@@ -236,6 +238,7 @@ async def send_contact_keyboard_dont_know(callback: CallbackQuery, _, dialog_man
     )
     app_script: AppScriptClient = dialog_manager.middleware_data['app_script']
     tg_id = dialog_manager.event.from_user.id
+    dialog_manager.dialog_data['when_connect'] = 'Не знает, когда будет удобно связаться'
     await app_script.send(payload={"tg-id": tg_id, "Пока не знаю": "Да"})
     # отправляем отдельным сообщением, т.к. aiogram-dialog работает с inline-клавиатурами
     msg = await callback.message.answer("Отправьте номер кнопкой", reply_markup=kb)
@@ -295,7 +298,10 @@ async def on_contact(message: Message, _, dialog_manager):
             new_lead_id = False
 
     if new_lead_id:
-        amo_api.add_new_note_to_lead(lead_id=new_lead_id, text='Лид из чат-бота Prosto')
+        when_connect = dialog_manager.dialog_data['when_connect']
+        amo_api.add_new_note_to_lead(lead_id=new_lead_id, text=f'Лид из чат-бота Prosto.\n'
+                                                               f'Связаться с клиентом для рассчета проекта под его задачу.\n'
+                                                               f'{when_connect}',)
     new_lead_url = f'https://hite.amocrm.ru/leads/detail/{new_lead_id}' if new_lead_id else 'Сделка не создалась'
     await app_script.send(payload={"tg-id": tg_id, "Номер телефона": f'{phone_number}',
                                    'Ссылка на лид': new_lead_url,})
