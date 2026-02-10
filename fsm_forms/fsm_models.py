@@ -14,3 +14,4 @@ class MainDialog(StatesGroup):
     when_call = State()
     later_message = State()
     connect_manager = State()
+    phone = State()

@@ -587,7 +587,8 @@ class AmoCRMWrapper:
         logger.info(f'Статус код запроса записей покупателя: {response.status_code}')
         return response.json()
 
-    def create_new_contact(self, first_name: str, last_name: str, phone: str):
+    def create_new_contact(self, first_name: str, last_name: str, phone: int,
+                           username: str, tg_id: int, tg_id_field: int, tg_username_field: int,):
         url = '/api/v4/contacts'
         data = [{
             'first_name': first_name,
@@ -599,12 +600,25 @@ class AmoCRMWrapper:
                      {'enum_code': 'WORK',
                       "value": str(phone)
                       },]
+                 },
+                {"field_id": tg_id_field,
+                 "values": [
+                     {"value": f"{tg_id}"},
+                 ]
+                 },
+                {"field_id": tg_username_field,
+                 "values": [
+                     {"value": f"{username}"},
+                 ]
                  }
             ],
         }]
         response = self._base_request(type='post', endpoint=url, data=data)
-        contact_id = response.json().get('_embedded').get('contacts')[0].get('id')
-        return contact_id
+        if response.status_code == 200:
+            contact_id = response.json().get('_embedded').get('contacts')[0].get('id')
+            return int(contact_id)
+        else:
+            return False
 
     def find_lead_by_contact_in_pipeline_stage(
             self,
@@ -680,6 +694,21 @@ class AmoCRMWrapper:
 
 
 
+if __name__ == '__main__':
+    from config.config import load_config, Config
+    config: Config = load_config()
+
+    amo_api = AmoCRMWrapper(
+        path=config.amo_config.path_to_env,
+        amocrm_subdomain=config.amo_config.amocrm_subdomain,
+        amocrm_client_id=config.amo_config.amocrm_client_id,
+        amocrm_redirect_url=config.amo_config.amocrm_redirect_url,
+        amocrm_client_secret=config.amo_config.amocrm_client_secret,
+        amocrm_secret_code=config.amo_config.amocrm_secret_code,
+        amocrm_access_token=config.amo_config.amocrm_access_token,
+        amocrm_refresh_token=config.amo_config.amocrm_refresh_token
+    )
+    amo_api.init_oauth2()
 
 
 
