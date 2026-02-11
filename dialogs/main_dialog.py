@@ -189,7 +189,7 @@ async def connect_with_manager(callback: CallbackQuery, button: Button, dialog_m
     app_script: AppScriptClient = dialog_manager.middleware_data['app_script']
     tg_id = dialog_manager.event.from_user.id
     await app_script.send(payload={"tg-id": tg_id,"Получить расчет сейчас": 'Да'})
-    await callback.message.answer(text='Подпишитесь на наш телеграм-канал <a href="https://t.me/hitepro">HiTE-PRO</a>,'
+    await callback.message.answer(text='Подпишитесь на наш телеграм-канал <a href="https://t.me/hitepro">HiTE PRO</a>,'
           ' в нем мы делимся интересными кейсами по применению'
           ' беспроводного умного дома и последними новостями о наших разработках.')
     await dialog_manager.switch_to(MainDialog.connect_manager, show_mode=ShowMode.SEND)
