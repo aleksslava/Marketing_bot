@@ -67,7 +67,7 @@ async def start_message_getter(dialog_manager: DialogManager, **kwargs):
 
 start_window = Window(
     Format('<b>{first_name}, здравствуйте!</b>'
-          ' На связи беспроводной умный дом HiTE PRO.\n\n'
+          ' На связи беспроводной умный дом HiTE PRO\n\n'
           'Какая инструкция вас интересует?'),
     Column(
         Button(Const('Беспроводные радиовыключатели'), id ='1', on_click=switch),
@@ -199,7 +199,7 @@ discount_window = Window(
           'Скидка действительна <i>в течение 3 дней</i>\n\n'
           'Хотите получить индивидуальный расчет под ваш проект?'),
     Column(
-        Button(Const('Да, хочу узнать прямо сейчас!'), id='1', on_click=connect_with_manager),
+        Button(Const('Да, хочу узнать прямо сейчас'), id='1', on_click=connect_with_manager),
         Button(Const('Да, свяжитесь со мной позже'), id='2', on_click=later),
         Button(Const('Посмотреть другие инструкции'), id='3', on_click=switch_to_start),
     ),
