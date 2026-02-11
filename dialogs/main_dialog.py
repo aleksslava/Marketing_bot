@@ -66,8 +66,8 @@ async def start_message_getter(dialog_manager: DialogManager, **kwargs):
     return {'first_name': first_name}
 
 start_window = Window(
-    Format('<b>{first_name} здравствуйте!</b>\n\n'
-          'На связи беспроводной умный дом HiTE PRO и умные замки KEYWAY.\n'
+    Format('<b>{first_name} здравствуйте!</b>'
+          'На связи беспроводной умный дом HiTE PRO.\n\n'
           'Какая инструкция вас интересует?'),
     Column(
         Button(Const('Беспроводные радиовыключатели'), id ='1', on_click=switch),
