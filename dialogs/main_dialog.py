@@ -157,7 +157,7 @@ switch_kp_window = Window(
         path=BASE_DIR / "media" / "photo" / "switch_kp.jpg",
         type=ContentType.PHOTO,
     ),
-    Button(Const('Получить подарок'), id='1', on_click=to_discount),
+    Button(Const('Получить скидку'), id='1', on_click=to_discount),
     state=MainDialog.switch_kp,
 )
 
