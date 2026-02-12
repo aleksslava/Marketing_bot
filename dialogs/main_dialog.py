@@ -144,6 +144,10 @@ before_repair_window = Window(
 )
 
 async def to_discount(callback: CallbackQuery, button: Button, dialog_manager: DialogManager):
+    app_script: AppScriptClient = dialog_manager.middleware_data['app_script']
+    tg_id = dialog_manager.event.from_user.id
+    await app_script.send(payload={'tg_id': str(tg_id),
+                                   "Получил подарок": 'Да'})
     await dialog_manager.switch_to(MainDialog.discount, show_mode=ShowMode.SEND)
 
 switch_kp_window = Window(
