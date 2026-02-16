@@ -603,17 +603,18 @@ class AmoCRMWrapper:
                  },
                 {"field_id": tg_id_field,
                  "values": [
-                     {"value": f"{tg_id}"},
+                     {"value": str(tg_id)},
                  ]
                  },
                 {"field_id": tg_username_field,
                  "values": [
-                     {"value": f"{username}"},
+                     {"value": str(username)},
                  ]
                  }
             ],
         }]
         response = self._base_request(type='post', endpoint=url, data=data)
+        logger.info(response.json())
         if response.status_code == 200:
             contact_id = response.json().get('_embedded').get('contacts')[0].get('id')
             return int(contact_id)
