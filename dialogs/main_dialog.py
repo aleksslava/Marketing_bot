@@ -296,7 +296,7 @@ async def on_contact(message: Message, _, dialog_manager):
         new_contact_id = amo_api.create_new_contact(first_name=dialog_manager.event.from_user.first_name,
                                                     last_name=dialog_manager.event.from_user.last_name,
                                                     phone=int(message.contact.phone_number),
-                                                    tg_id_field=contact_fields.get(tg_id),
+                                                    tg_id_field=contact_fields.get('tg_id'),
                                                     tg_username_field=contact_fields.get("username"),
                                                     username=dialog_manager.event.from_user.username,
                                                     tg_id=tg_id,)
