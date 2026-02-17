@@ -197,11 +197,18 @@ async def later(callback: CallbackQuery, button: Button, dialog_manager: DialogM
 async def connect_with_manager(callback: CallbackQuery, button: Button, dialog_manager: DialogManager):
     app_script: AppScriptClient = dialog_manager.middleware_data['app_script']
     tg_id = dialog_manager.event.from_user.id
-    await app_script.send(payload={"tg-id": tg_id,"Получить расчет сейчас": 'Да'})
-    await callback.message.answer(text='Подпишитесь на наш телеграм-канал <a href="https://t.me/hitepro">HiTE PRO</a>,'
-          ' в нем мы делимся интересными кейсами по применению'
-          ' беспроводного умного дома и последними новостями о наших разработках.')
-    await dialog_manager.switch_to(MainDialog.connect_manager, show_mode=ShowMode.SEND)
+    kb = ReplyKeyboardMarkup(
+        keyboard=[[KeyboardButton(text="📞 Поделиться номером", request_contact=True)]],
+        resize_keyboard=True,
+        one_time_keyboard=True,
+    )
+    await app_script.send(payload={"tg-id": tg_id,"Получить расчет сейчас": 'Да', "На выходных": "Да"})
+    dialog_manager.dialog_data['when_connect'] = 'Сейчас'
+    msg = await callback.message.answer("Отправьте номер кнопкой", reply_markup=kb)
+    dialog_manager.dialog_data["contact_kb_msg_id"] = msg.message_id
+    await dialog_manager.switch_to(MainDialog.phone, show_mode=ShowMode.NO_UPDATE)
+
+
 
 discount_window = Window(
     Const('💙 Дарим <b>скидку 10%</b> на любые модели беспроводных выключателей и устройства для умного дома\n\n'
