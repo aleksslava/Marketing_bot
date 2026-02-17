@@ -202,7 +202,7 @@ async def connect_with_manager(callback: CallbackQuery, button: Button, dialog_m
         resize_keyboard=True,
         one_time_keyboard=True,
     )
-    await app_script.send(payload={"tg-id": tg_id,"Получить расчет сейчас": 'Да', "На выходных": "Да"})
+    await app_script.send(payload={"tg-id": tg_id,"Получить расчет сейчас": 'Да'})
     dialog_manager.dialog_data['when_connect'] = 'Сейчас'
     msg = await callback.message.answer("Отправьте номер кнопкой", reply_markup=kb)
     dialog_manager.dialog_data["contact_kb_msg_id"] = msg.message_id
